@@ -2,6 +2,8 @@ import express from 'express';
 
 const app = express();
 
+app.use(express.json());
+
 const users = [
     'Miriam',
     'Martin',
@@ -12,9 +14,11 @@ const users = [
  * Liste tous les utilisateurs
  */
 app.get('/users', (request, response) => {
-    console.log('Liste des utilisateurs');
+    const search = String(request.query.search);
 
-    return response.json(users);
+    const filteredUsers = search ? users.filter(user => user.includes(search)) : users;
+
+    return response.json(filteredUsers);
 });
 
 /**
@@ -32,9 +36,12 @@ app.get('/users/:id', (request, response) => {
  * Création d'un utilisateur
  */
 app.post('/users', (request, response) => {
+    const data = request.body;
+    console.log(data);
+
     const user = {
-        name: 'Miriam',
-        email: 'miriam@miriam.com.br'
+        name: data.name,
+        email: data.email,
     };
 
     return response.json(user);
