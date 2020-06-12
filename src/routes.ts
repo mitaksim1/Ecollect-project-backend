@@ -1,7 +1,8 @@
 import express from 'express';
-// Pour pouvoir se connecter à notre bdd, on doit importer le fichier connection
-import knex from './database/connection';
 
+/**
+ * Import de nos controllers
+ */
 import PointsController from './controllers/PointsController';
 import ItemsController from './controllers/ItemsController';
 
@@ -22,5 +23,10 @@ routes.get('/items', itemsController.index);
  * Route vers la méthode de création d'un point de collecte
  */
 routes.post('/points', pointsController.create );
+
+/**
+ * Route vers la méthode qui liste un point spécifique
+ */
+routes.get('/points/:id', pointsController.show);
 
 export default routes;

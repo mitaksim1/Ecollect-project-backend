@@ -5,6 +5,26 @@ import knex from '../database/connection';
  * Création d'un point de collecte
  */
 class PointsController {
+    // Affiche un seul point de collecte
+    async show(request: Request, response: Response) {
+       // const id = request.params.id
+       const { id } = request.params;
+
+       const point = await knex('points').where('id', id).first();
+
+        if (!point) {
+            return response.status(400).json({ message: 'Point de collecte pas trouvé' });
+        }
+        const items = await knex('items')
+
+        .join('point_items', 'items.id', '=', 'point_items.item_id')
+        .where('point_items.point_id', id)
+        .select('items.title');
+
+        return response.json({ point, items });
+    }
+
+    // Création d'un point de collecte
     async create(request: Request, response: Response) {
         const { name, email, telephone, latitude, longitude, city, region, items } = request.body;
     
@@ -45,5 +65,6 @@ class PointsController {
     }
 
 }
+
 
 export default PointsController;
