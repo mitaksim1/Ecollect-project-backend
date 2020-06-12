@@ -29,4 +29,9 @@ routes.post('/points', pointsController.create );
  */
 routes.get('/points/:id', pointsController.show);
 
+/**
+ * Route vers la méthode qui liste tous les points de collecte filtrés par ville, region et items
+ */
+routes.get('/points', pointsController.index);
+
 export default routes;
